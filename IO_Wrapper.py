@@ -60,10 +60,8 @@ def _countTotalPages(pageInstructions):
 
 
 def process_PDF(Ui_dialog_instance, pgInstructions, src, dest_dir):
-    timeZero=datetime.now() # run time timer
-    #print("process_PDF: Target pdf={0}; Dest={1}".format(src, dest))    
+    timeZero=datetime.now() # for runtime timer
     rngList = _parsePageInstructions(pgInstructions)
-    #print("process_PDF: Page #s to process: "+str(pgList))
 
     # Show UIs related to progress bar
     filenameTokens = src.split("\\")
@@ -71,18 +69,13 @@ def process_PDF(Ui_dialog_instance, pgInstructions, src, dest_dir):
     Ui_dialog_instance.label_9.setText("File in progress: {0}".format(fName))
     Ui_dialog_instance.label_9.show()
     Ui_dialog_instance.progressBar.show()
-    
-    # Define output filename & absolute path
-    timestamp = datetime.now()
-    outputfileName = "PyDF_Output_{0}.xlsx".format(timestamp.strftime("%Y.%m.%d_%H%M%S"))
-
-    # Iterate through each page in pgList
-    writer = pd.ExcelWriter(dest_dir + outputfileName, engine='xlsxwriter')
-    skipped_pages = [] #int pg. number
-    
-    #Set max value of progress
     Ui_dialog_instance.progressBar.setMaximum(_countTotalPages(pgInstructions))
     
+    # Define output filename & absolute path
+    timestamp = datetime.now()# for runtime timer
+    outputfileName = "PyDF_Output_{0}.xlsx".format(timestamp.strftime("%Y.%m.%d_%H%M%S"))
+    writer = pd.ExcelWriter(dest_dir + outputfileName, engine='xlsxwriter')
+    skipped_pages = [] #int pg. number    
     progressCounter = 0
     for rng in rngList:     
         try:
