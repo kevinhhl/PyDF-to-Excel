@@ -1,0 +1,2 @@
+1\ cd to current working dir
+2\ pyinstaller __main__.py
